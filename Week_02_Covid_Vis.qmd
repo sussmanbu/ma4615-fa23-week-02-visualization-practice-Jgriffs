@@ -1,7 +1,7 @@
 ---
 title: "Week 02: COVID Visualization Activity"
 date: "September, 11 2023"
-author: "**`[[`**Your Name**`]]`**"
+author: "Joe Griffiths"
 ---
 
 Today, we'll be working with a data set related to COVID.
@@ -39,3 +39,19 @@ covid_data_count |>
 2. Are there any conclusions you can draw?
 3. What were you not able to do due to not having the R knowledge?
 4. What other data would be useful to better understand this data?
+
+#1 Plotting state case totals
+
+covid_data_long |> 
+  ggplot(aes(x = state))+ geom_bar()
+  
+subset_Covid_data_long_total_cases<-select(covid_data_long, race,count_type,count,state)
+ggplot(aes(x=state)) + geom_bar()
+
+##->had this before but wasn't what I meant... delete?    
+#covid_data_long |> 
+#   ggplot(aes(x = state, y = count_type, color = count_type)) + geom_point()
+
+#2 [conclusions]
+#3 I am currently unable to consolidate the states into regions (Northeast, Midwest, Pacific Northwest, etc.) and use these variables to get a neater and easier to read figure.
+#4 It would be useful to have hospitalization data and test data from a bunch of the states that appear to be missing those two count types; it appears that all states at least have counts of deaths and cases.It also would be useful to know the overlaps between the deaths, hospitalizations, and tests. I looked on the COVIDtracking site and couldn't find any answers about the overlaps (although there is a lot on the site, so I could've missed it).
