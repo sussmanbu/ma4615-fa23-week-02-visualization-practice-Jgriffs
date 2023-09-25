@@ -48,10 +48,32 @@ covid_data_long |>
 subset_Covid_data_long_total_cases<-select(covid_data_long, race,count_type,count,state)
 ggplot(aes(x=state)) + geom_bar()
 
-##->had this before but wasn't what I meant... delete?    
-#covid_data_long |> 
-#   ggplot(aes(x = state, y = count_type, color = count_type)) + geom_point()
 
-#2 [conclusions]
+#2 Some states have recorded their case totals more frequently than others.
 #3 I am currently unable to consolidate the states into regions (Northeast, Midwest, Pacific Northwest, etc.) and use these variables to get a neater and easier to read figure.
 #4 It would be useful to have hospitalization data and test data from a bunch of the states that appear to be missing those two count types; it appears that all states at least have counts of deaths and cases.It also would be useful to know the overlaps between the deaths, hospitalizations, and tests. I looked on the COVIDtracking site and couldn't find any answers about the overlaps (although there is a lot on the site, so I could've missed it).
+
+```{r}
+CDFcovid_data_orig<- covid_data_orig |> 
+  filter(State %in% c("CA","MA","FL"))
+
+ggplot(CDFcovid_data_orig, aes(x= Date, y=Cases_Total, color = State)) +
+  geom_line()+
+  labs(x="date",y = "Total Covid-19 Cases",title="Total Covid-19 Cases by State")+theme_minimal()
+
+CDFcovid_data_Count<- covid_data_count |> 
+  filter(state %in% c("CA","MA","FL")) |> 
+  ggplot(CDFcovid_data_Count, aes(x= Date, y= Cases / population, color = State)) +
+  geom_line()+
+  labs(x="date",y = "Total Covid-19 Cases",title="Total Covid-19 Cases by State")+theme_minimal()
+```
+
+```{r}
+covid_data_long |> 
+  filter(count_type== "Deaths") |> 
+  count(race) |> arrange(desc(n))
+
+covid_data_long |> 
+  group_by(race,state) |> 
+  filter(date==last(date,order_by = date))
+```
